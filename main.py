@@ -13,8 +13,12 @@ def main():
         log_state()
         for event in pygame.event.get():
             pass
-            pygame.Surface.fill("black")
+        screen.fill("black")
         pygame.display.flip()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return
 
 if __name__ == "__main__":
     main()
