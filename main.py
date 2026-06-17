@@ -15,9 +15,15 @@ def main():
     # draw the new GUI
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     
+    
     # player info
     x = SCREEN_WIDTH / 2
     y = SCREEN_HEIGHT / 2
+    
+    # groups
+    updatable = pygame.sprite.Group() # Sprites that can be updated
+    drawable = pygame.sprite.Group() # Sprites that can be drawn
+    Player.containers = (updatable, drawable)
     player = Player(x, y)
 
     # game loop
@@ -39,10 +45,11 @@ def main():
         screen.fill("black")
 
         # check rotation
-        player.update(dt)
+        updatable.update(dt)
 
         # draw player
-        player.draw(screen)
+        for sprite in drawable:
+            sprite.draw(screen)
 
         # refresh screen
         pygame.display.flip()
