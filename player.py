@@ -1,6 +1,7 @@
 import pygame
 from constants import *
 from circleshape import *
+from shot import Shot
 
 class Player(CircleShape):
     def __init__(self, x: int, y: int):
@@ -15,6 +16,14 @@ class Player(CircleShape):
         b = self.position - forward * self.radius - right
         c = self.position - forward * self.radius + right
         return [a, b, c]
+
+
+    # function to make player shoot
+    def shoot(self):
+        new_shot = Shot(self.position[0], self.position[1])
+        new_shot.velocity = pygame.Vector2(0,1)
+        bullet_vector_rotation = new_shot.velocity.rotate(self.rotation)
+        new_shot.velocity = bullet_vector_rotation * PLAYER_SHOOT_SPEED
 
     # override draw from circleshape
     def draw(self, screen: object):
@@ -31,8 +40,7 @@ class Player(CircleShape):
         rotated_with_speed_vector = rotated_vector * PLAYER_SPEED * dt
         self.position += rotated_with_speed_vector
 
-
-
+    # update player based on user input
     def update(self, dt: float) -> None:
         keys = pygame.key.get_pressed()
 
@@ -52,3 +60,6 @@ class Player(CircleShape):
         if keys[pygame.K_s]:
             self.move(-dt)
 
+        # Shoot backwards if 'SPACE' is pressed
+        if keys[pygame.K_SPACE]:
+            self.shoot()
