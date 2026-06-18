@@ -7,6 +7,7 @@ class Player(CircleShape):
     def __init__(self, x: int, y: int):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0
+        self.shot_timer = 0
 
         # in the Player class
     def triangle(self) -> list[pygame.Vector2]:
@@ -20,10 +21,18 @@ class Player(CircleShape):
 
     # function to make player shoot
     def shoot(self):
-        new_shot = Shot(self.position[0], self.position[1])
-        new_shot.velocity = pygame.Vector2(0,1)
-        bullet_vector_rotation = new_shot.velocity.rotate(self.rotation)
-        new_shot.velocity = bullet_vector_rotation * PLAYER_SHOOT_SPEED
+
+        # Check if player presses shoot 'SPACE'
+        if self.shot_timer > 0:
+            pass
+        else:
+            self.shot_timer = PLAYER_SHOOT_COOLDOWN_SECONDS
+            new_shot = Shot(self.position[0], self.position[1])
+            new_shot.velocity = pygame.Vector2(0,1)
+            bullet_vector_rotation = new_shot.velocity.rotate(self.rotation)
+            new_shot.velocity = bullet_vector_rotation * PLAYER_SHOOT_SPEED
+        
+        
 
     # override draw from circleshape
     def draw(self, screen: object):
@@ -63,3 +72,7 @@ class Player(CircleShape):
         # Shoot backwards if 'SPACE' is pressed
         if keys[pygame.K_SPACE]:
             self.shoot()
+            
+        self.shot_timer -= dt
+
+
