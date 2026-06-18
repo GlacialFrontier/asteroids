@@ -69,7 +69,7 @@ def main():
             for shot in shots:
                 if asteroid.collides_with(shot):
                     log_event("asteroid_shot")
-                    pygame.sprite.Sprite.kill(asteroid) # kill the asteroid
+                    asteroid.split()
                     pygame.sprite.Sprite.kill(shot) # kills the shot
 
         # draw player
