@@ -35,6 +35,7 @@ def main():
     AsteroidField.containers = (updatable)
     Shot.containers = (drawable, updatable, shots)
     player = Player(x, y)
+    #shot = Shot(x, y)
     asteroid_field = AsteroidField()
 
     # game loop
@@ -64,6 +65,12 @@ def main():
                 log_event("player_hit")
                 print("Game Over!")
                 sys.exit()
+
+            for shot in shots:
+                if asteroid.collides_with(shot):
+                    log_event("asteroid_shot")
+                    pygame.sprite.Sprite.kill(asteroid) # kill the asteroid
+                    pygame.sprite.Sprite.kill(shot) # kills the shot
 
         # draw player
         for sprite in drawable:
